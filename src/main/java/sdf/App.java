@@ -1,8 +1,9 @@
 package sdf;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Hello world!
@@ -55,30 +56,81 @@ public final class App {
         // executorService.execute(mRI5);
         // executorService.shutdown();
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
-        executorService.execute(mRI);
-        executorService.execute(mRI2);
-        executorService.execute(mRI3);
+        // ExecutorService executorService = Executors.newCachedThreadPool();
+        // executorService.execute(mRI);
+        // executorService.execute(mRI2);
+        // executorService.execute(mRI3);
+        // executorService.shutdown();
 
         // Start of lambda expression
         MyRunnableInterface<Integer> addOperation = (a, b) -> {
             return a + b;
         };
-        System.out.println("addOperation: " + addOperation.process(1, 2));
+        System.out.println("addOperation: " + 
+        addOperation.process(1, 2));
 
         MyRunnableInterface<Integer> multiplyOperation = (c, d) -> {
             return c * d;
         };
-        System.out.println("multiplyOperation = " + multiplyOperation.process(2, 3));
+        System.out.println("multiplyOperation = " + 
+        multiplyOperation.process(2, 3));
 
         MyRunnableInterface<Integer> subtractionOperation = (c, d) -> {
             return c * d;
         };
-        System.out.println("subtrationOperation = " + subtractionOperation.process(5, 2));
+        System.out.println("subtrationOperation = " + 
+        subtractionOperation.process(5, 2));
 
         MyRunnableInterface<String> concatenateString = (a, b) -> {
             return a + b;
         };
-        System.out.println("concatenateOperation = " + concatenateString.process("I am", "the strongest"));
+        System.out.println("concatenateOperation = " + 
+        concatenateString.process("I am ", "the strongest"));
+
+        MyMessageInterface printString = a -> {
+            System.out.println(a);
+        };
+        printString.printMessage("Hello and welcome to Lambda expression");
+
+        //List of employees
+        List<Employee> employees = new ArrayList<Employee>();
+        employees.add(new Employee(1, "Adam", 
+        "Turner", 10000));
+        employees.add(new Employee(1, "Gilbert", 
+        "Chuck", 20000));
+        employees.add(new Employee(1, "Mary", 
+        "Tan", 30000));
+        employees.add(new Employee(1, "Larry", 
+        "Daniels", 40000));
+        employees.add(new Employee(1, "Diana", 
+        "Ecclestone", 50000));
+
+        // using labda expression to print the array list, employees
+        employees.forEach(emp -> {
+            System.out.println(emp);
+        });
+        System.out.println("---------------------------------------------------------------------");
+
+        // filter employees by last name contains "ne"
+        // List<Employee> filteredEmployees = employees.stream().filter(emp -> 
+        // emp.getLastName().contains("ne")).collect(Collectors.toList());
+        // filteredEmployees.forEach(emp -> System.out.println(emp));
+
+        // employees.sort(Comparator.comparing(e -> e.getFirstName()));
+        // employees.sort(Comparator.comparing(Employee::getFirstName));
+        Comparator<Employee> compare= Comparator.comparing(e -> e.getFirstName());
+        employees.sort(compare.reversed());
+
+        // employees.forEach(emp -> {
+        //     System.out.println(emp);
+        // });
+
+        Comparator<Employee> groupByComparator = Comparator.comparing
+        (Employee::getFirstName).thenComparing(Employee::getLastName);
+        employees.sort(groupByComparator);
+        employees.forEach(emp -> {
+            System.out.println(emp);
+        });
+
     }
 }
