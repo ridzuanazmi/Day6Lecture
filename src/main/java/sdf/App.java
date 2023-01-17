@@ -15,25 +15,25 @@ public final class App {
      * Every thread must have a runnable
      */
     public static void main(String[] args) {
-        Thread thread1 = new Thread(new Runnable() {
+        // Thread thread1 = new Thread(new Runnable() {
 
-            @Override
-            public void run() {
-                for (int i = 0; i < 5; i++) {
-                    System.out.println(Thread.currentThread().getName() + "\tRunnable ..." + i);
-                }
-                
-            }
-            
-        }); // end of thread1
+        //     @Override
+        //     public void run() {
+        //         for (int i = 0; i < 5; i++) {
+        //             System.out.println(Thread.currentThread().getName() + "\tRunnable ..." + i);
+        //         }
+
+        //     }
+
+        // }); // end of thread1
 
         // thread1.start();
 
         MyRunnableImplementation mRI = new MyRunnableImplementation("T1");
         MyRunnableImplementation mRI2 = new MyRunnableImplementation("T2");
         MyRunnableImplementation mRI3 = new MyRunnableImplementation("T3");
-        MyRunnableImplementation mRI4 = new MyRunnableImplementation("T4");
-        MyRunnableImplementation mRI5 = new MyRunnableImplementation("T5");
+        // MyRunnableImplementation mRI4 = new MyRunnableImplementation("T4");
+        // MyRunnableImplementation mRI5 = new MyRunnableImplementation("T5");
 
         // Thread thread2 = new Thread(mRI);
         // thread2.start();
@@ -45,8 +45,8 @@ public final class App {
         // ExecutorService executorService = Executors.newSingleThreadExecutor();
         // executorService.execute(mRI);
         // executorService.execute(mRI2);
-        // executorService.shutdown();        
-        
+        // executorService.shutdown();
+
         // ExecutorService executorService = Executors.newFixedThreadPool(3);
         // executorService.execute(mRI);
         // executorService.execute(mRI2);
@@ -59,5 +59,26 @@ public final class App {
         executorService.execute(mRI);
         executorService.execute(mRI2);
         executorService.execute(mRI3);
+
+        // Start of lambda expression
+        MyRunnableInterface<Integer> addOperation = (a, b) -> {
+            return a + b;
+        };
+        System.out.println("addOperation: " + addOperation.process(1, 2));
+
+        MyRunnableInterface<Integer> multiplyOperation = (c, d) -> {
+            return c * d;
+        };
+        System.out.println("multiplyOperation = " + multiplyOperation.process(2, 3));
+
+        MyRunnableInterface<Integer> subtractionOperation = (c, d) -> {
+            return c * d;
+        };
+        System.out.println("subtrationOperation = " + subtractionOperation.process(5, 2));
+
+        MyRunnableInterface<String> concatenateString = (a, b) -> {
+            return a + b;
+        };
+        System.out.println("concatenateOperation = " + concatenateString.process("I am", "the strongest"));
     }
 }
